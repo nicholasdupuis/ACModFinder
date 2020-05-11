@@ -1,0 +1,8 @@
+{
+    "name": "ACModFinder",
+    "version": "0.0.1",
+    "description": "Assetto Corsa Mod Finding Bot",
+    "main": "bot.js",
+    "author": "Nicholas Dupuis",
+    "dependencies": {}
+}

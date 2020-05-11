@@ -1,0 +1,5 @@
+# Secret sauce
+cfg/
+
+# Dependencies
+node_modules/
