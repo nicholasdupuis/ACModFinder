@@ -4,8 +4,10 @@
     "description": "Assetto Corsa Mod Finding Bot",
     "main": "bot.js",
     "scripts": {
-        "start": "node bot/bot.js" 
+        "start": "node bot/bot.js"
     },
     "author": "Nicholas Dupuis",
-    "dependencies": {}
+    "dependencies": {
+        "discord.js": "^12.2.0"
+    }
 }
