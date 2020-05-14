@@ -8,40 +8,25 @@ const googleAuth = require('../cfg/google-auth.json');
 const client = new Discord.Client();
 
 /**
- * Determine whether to search for a track or a car pack
- * @param msg 
+ * Returns an object corresponding to the command given by the user.
+ * Object contains the command, mod type, and search term.
+ * 
+ * @param message - the string containing the command given by the user
  */
-function parseCommand(msg) {
-    const command = msg.content.split(' ');
+function parseCommand(message) {
+    const command = message.split(' ');
     const modType = command[1];
-    const searchTerm = ''
-    let downloadLink = '';
+    const searchTerm = command.slice(2).join(' ');
 
-    //TODO: Break this into another function since it's not parsing the command like the function name says
-    if (modType === 'track') {
-        downloadLink = getTrackLink();
-    } else if (modType === 'cars') {
-        downloadLink = getCarPackLink();
-    }
-
-    const response = (downloadLink ? `Download: ${downloadLink}` : 'No Download Link Found');
-    msg.reply(response);
+    return {
+        modType: modType,
+        searchTerm: searchTerm
+    };
 }
 
 /**
- * Given a search term, return download link for a track
+ * Runs when bot is ready
  */
-function getTrackLink() {
-    return 'track link';
-}
-
-/**
- * Given a search term, return download link for a car pack
- */
-function getCarPackLink() {
-    return 'car pack link';
-}
-
 client.on('ready', () => {
     console.log('Logged in!')
 });
@@ -51,7 +36,8 @@ client.on('ready', () => {
  */
 client.on('message', msg => {
     if (msg.content.indexOf('!find') >= 0) {
-        parseCommand(msg);
+        const command = parseCommand(msg.content);
+        console.log(command);
     }
 });
 
