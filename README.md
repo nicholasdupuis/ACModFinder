@@ -6,8 +6,6 @@ A discord bot that returns download links to your favorite Assetto Corsa mods!
 
 Set up your `cfg` dir with 2 files: `auth.json` and `google-auth.json`
 
-TODO: Write instructions for setting up these files
-
 ### auth.json
 
 Should look like the following
