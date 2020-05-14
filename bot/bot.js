@@ -26,6 +26,31 @@ function parseCommand(message) {
 }
 
 /**
+ * Sends the user a message notifying them of no search results being found
+ * 
+ * @param message 
+ */
+function notifyNoResults(message) {
+    message.reply('Sorry, no results found');
+}
+
+/**
+ * Reply to the user with any results found 
+ * 
+ * @param {*} message 
+ * @param {*} results 
+ */
+function returnSearchResults(message, results) {
+    let messageText = 'Here\'s what I found \n';
+
+    results.forEach(result => {
+        messageText += `${result.name}: ${result.link} \n`;
+    });
+
+    message.reply(messageText);
+}
+
+/**
  * When bot is ready, start loading spreadsheet info so it's available to search through
  */
 client.on('ready', () => {
@@ -39,9 +64,9 @@ client.on('ready', () => {
 client.on('message', msg => {
     if (msg.content.indexOf('!find') >= 0) {
         const command = parseCommand(msg.content);
-        const row = spreadsheetManager.methods.searchForTrack(command.searchTerm);
+        const results = spreadsheetManager.methods.search(command);
         
-        msg.reply(`${row.trackName}: ${row.link}`)
+        results.length ? returnSearchResults(msg, results) : notifyNoResults(msg);
     }    
 });
 

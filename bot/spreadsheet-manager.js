@@ -8,6 +8,9 @@ const doc = new GoogleSpreadsheet(spreadsheetId);
 let trackRows = [];
 let carPackRows = [];
 
+/**
+ * Fetches the spreadsheet and loads the row info 
+ */
 const loadSpreadsheetInfo = async function loadSpreadsheetInfo() {
     await doc.useServiceAccountAuth(require('../cfg/google-auth.json'));
 
@@ -22,22 +25,28 @@ const loadSpreadsheetInfo = async function loadSpreadsheetInfo() {
     console.log('Spreadsheet info loaded');
 }
 
-const searchForTrack = (searchString) => {
-    let result = '';
+/**
+ * Executes a search based on the command given
+ * 
+ * @param {modType: string, searchTerm: string} command 
+ */
+const search = (command) => {
+    let results = [];
 
-    for (let row of trackRows) {
-        if (row.trackName.indexOf(searchString) !== -1) {
-            result = row;
-            break;
+    sheetToSearch = (command.modType === 'track' ? trackRows : carPackRows);
+
+    for (let row of sheetToSearch) {
+        if (row.name.toLowerCase().indexOf(command.searchTerm.toLowerCase()) !== -1) {
+            results.push(row);
         }
     }
 
-    return result;
+    return results;
 };
 
 let exportedMethods = {
     loadSpreadsheetInfo: loadSpreadsheetInfo,
-    searchForTrack: searchForTrack
+    search: search
 };
 
 exports.methods = exportedMethods;
