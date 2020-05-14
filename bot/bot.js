@@ -5,6 +5,7 @@ const fs = require('fs');
 // Variables
 const discordAuth = require('../cfg/auth.json')
 const googleAuth = require('../cfg/google-auth.json');
+const spreadsheetManager = require('../bot/spreadsheet-manager');
 const client = new Discord.Client();
 
 /**
@@ -25,20 +26,23 @@ function parseCommand(message) {
 }
 
 /**
- * Runs when bot is ready
+ * When bot is ready, start loading spreadsheet info so it's available to search through
  */
 client.on('ready', () => {
-    console.log('Logged in!')
+    console.log('Logged in!');
+    spreadsheetManager.methods.loadSpreadsheetInfo();
 });
 
 /**
- * Main bot command is !find [track/car] [searchTerm]
+ * Main bot command syntax is !find [track/car] [searchTerm]
  */
 client.on('message', msg => {
     if (msg.content.indexOf('!find') >= 0) {
         const command = parseCommand(msg.content);
-        console.log(command);
-    }
+        const row = spreadsheetManager.methods.searchForTrack(command.searchTerm);
+        
+        msg.reply(`${row.trackName}: ${row.link}`)
+    }    
 });
 
 client.login(discordAuth.token);
