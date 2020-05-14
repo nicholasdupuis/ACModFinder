@@ -36,7 +36,7 @@ const search = (command) => {
     sheetToSearch = (command.modType === 'track' ? trackRows : carPackRows);
 
     for (let row of sheetToSearch) {
-        if (row.name.toLowerCase().indexOf(command.searchTerm.toLowerCase()) !== -1) {
+        if (row.searchTerms.toLowerCase().indexOf(command.searchTerm.toLowerCase()) !== -1) {
             results.push(row);
         }
     }
